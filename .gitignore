@@ -1,6 +1,8 @@
 node_modules/
 build/
 dist/
+dist-native/
+src/native/embedded_assets.h
 coverage/
 .DS_Store
 *.log

@@ -72,6 +72,47 @@ VeriHash is a client-side cryptographic file integrity verification web applicat
 
 ---
 
+## Standalone Cross-Platform Binary (C99 + Mongoose)
+
+VeriHash can be packaged into a single, dependency-free C99 executable (`dist-native/verihash` or `dist-native/verihash.exe`) powered by Mongoose (`src/native/server.c`), embedding the minified `dist/` Web UI directly in read-only memory and exposing `/api/version` (`ETag`/`304`) so open browser tabs detect updated server builds.
+
+### Build for Your Current OS
+
+Requires a standard C compiler (`gcc`, `clang`, or MSVC/MinGW on Windows):
+
+```bash
+bash scripts/build.sh
+# or via npm:
+npm run build:native
+```
+
+On Windows Command Prompt (after `npm run build && npm run build:assets`):
+
+```bat
+scripts\build-native.bat
+```
+
+### Run the Standalone Binary
+
+```bash
+./dist-native/verihash              # Auto-picks a free port and opens your browser
+./dist-native/verihash --port 8080  # Bind a specific port
+./dist-native/verihash --no-open    # Print URL without launching a browser
+./dist-native/verihash --dir dist   # Serve live dist/ directory from disk instead of embedded headers
+```
+
+### Cross-Compile for Windows, macOS, and Linux
+
+Install [Zig](https://ziglang.org/) (`zig cc` bundles sysroots for all targets without separate toolchains) and run:
+
+```bash
+bash scripts/build.sh --target all
+```
+
+Supported `--target` values: `native`, `linux-amd64`, `linux-arm64`, `windows-amd64`, `macos-amd64`, `macos-arm64`, `all`.
+
+---
+
 ## Privacy & Local Processing
 
 All file slicing and cryptographic hashing (`spark-md5`, `js-sha1`, `js-sha256`) run 100% locally in your browser. Files are read incrementally in 64 KiB chunks to keep memory usage constant even for large archives or disk images, and no file data is transmitted over the network.

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Keyboard, Moon, Sun } from 'lucide-react';
+import { Keyboard, Moon, RefreshCw, Sun, X } from 'lucide-react';
 import { AlgorithmsView } from './components/AlgorithmsView';
 import { BatchQueueView } from './components/BatchQueueView';
 import { ComparisonResults } from './components/ComparisonResults';
@@ -31,6 +31,7 @@ import {
   isDedicatedChecksumFile,
   parseCompanionChecksumContent,
 } from './utils/hashing';
+import { fetchServerVersion, type ServerVersionInfo } from './utils/versionCheck';
 
 const HISTORY_STORAGE_KEY = 'verihash_history_v1';
 const THEME_STORAGE_KEY = 'verihash_theme_v1';
@@ -76,6 +77,7 @@ export default function App() {
   const [autoDetectEnabled, setAutoDetectEnabled] = useState(true);
   const [detectionNotice, setDetectionNotice] = useState<DetectionNotice | null>(null);
   const [showInstructions, setShowInstructions] = useState(false);
+  const [updateAvailable, setUpdateAvailable] = useState<ServerVersionInfo | null>(null);
 
   const [history, setHistory] = useState<VerificationRecord[]>(() => loadStoredHistory());
   const [sessionLog, setSessionLog] = useState<VerificationRecord[]>([]);
@@ -185,6 +187,44 @@ export default function App() {
       // Ignore storage quota errors
     }
   }, [history]);
+
+  useEffect(() => {
+    let cancelled = false;
+    let initialBuildId: string | null = null;
+    let intervalId: number | null = null;
+
+    const checkVersion = async () => {
+      const res = await fetchServerVersion(initialBuildId);
+      if (cancelled || res.status === 'unavailable') return;
+      if (!initialBuildId && res.info) {
+        initialBuildId = res.info.buildId;
+        return;
+      }
+      if (res.status === 'updated' && res.info) {
+        setUpdateAvailable(res.info);
+      }
+    };
+
+    const handleFocus = () => {
+      if (initialBuildId) {
+        void checkVersion();
+      }
+    };
+
+    void checkVersion().then(() => {
+      if (cancelled || !initialBuildId) return;
+      intervalId = window.setInterval(() => {
+        void checkVersion();
+      }, 60000);
+      window.addEventListener('focus', handleFocus);
+    });
+
+    return () => {
+      cancelled = true;
+      if (intervalId !== null) window.clearInterval(intervalId);
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, []);
 
   const runHashCheck = async (file: File, overrideExpected?: HashSet) => {
     if (abortRef.current) {
@@ -520,6 +560,35 @@ export default function App() {
             </button>
           </div>
         </div>
+
+        {updateAvailable && (
+          <div
+            role="status"
+            className="rounded-xl border border-blue-200 dark:border-blue-800/80 bg-blue-50/70 dark:bg-blue-950/40 px-4 py-3 flex items-center justify-between gap-4 text-xs sm:text-sm text-blue-900 dark:text-blue-100"
+          >
+            <span>
+              A newer VeriHash build (v{updateAvailable.version} · {updateAvailable.buildId}) is available from the local server.
+            </span>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => window.location.reload()}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-500 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+              >
+                <RefreshCw className="w-3.5 h-3.5" aria-hidden="true" />
+                <span>Reload</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setUpdateAvailable(null)}
+                aria-label="Dismiss update notification"
+                className="p-1 rounded-md hover:bg-black/5 dark:hover:bg-white/10 cursor-pointer"
+              >
+                <X className="w-4 h-4" aria-hidden="true" />
+              </button>
+            </div>
+          </div>
+        )}
 
         {errorMsg && (
           <div

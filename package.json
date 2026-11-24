@@ -7,7 +7,9 @@
     "dev": "vite --port=3000 --host=0.0.0.0",
     "build": "vite build",
     "preview": "vite preview",
-    "clean": "rm -rf dist server.js",
+    "build:assets": "node scripts/pack-c-assets.mjs",
+    "build:native": "bash scripts/build.sh",
+    "clean": "rm -rf dist dist-native src/native/embedded_assets.h server.js",
     "lint": "tsc --noEmit"
   },
   "dependencies": {
