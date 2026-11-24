@@ -115,7 +115,9 @@ export const ExpectedHashesPanel: React.FC<ExpectedHashesPanelProps> = ({
       }}
       onDrop={handlePanelDrop}
       className={`rounded-xl border p-6 space-y-5 transition-colors ${
-        isDraggingChecksum ? 'border-blue-700 bg-blue-50/40' : 'border-slate-200 bg-white'
+        isDraggingChecksum
+          ? 'border-blue-700 dark:border-blue-500 bg-blue-50/40 dark:bg-blue-950/30'
+          : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900'
       }`}
     >
       <input
@@ -135,10 +137,10 @@ export const ExpectedHashesPanel: React.FC<ExpectedHashesPanelProps> = ({
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h2 id="expected-hashes-heading" className="text-base font-semibold text-slate-900">
+          <h2 id="expected-hashes-heading" className="text-base font-semibold text-slate-900 dark:text-slate-100">
             Expected Checksums
           </h2>
-          <p className="mt-0.5 text-sm text-slate-600">
+          <p className="mt-0.5 text-sm text-slate-600 dark:text-slate-300">
             Enter reference digests or auto-parse from a filename or companion .txt / .sha256 file.
           </p>
         </div>
@@ -150,7 +152,7 @@ export const ExpectedHashesPanel: React.FC<ExpectedHashesPanelProps> = ({
               setShowPasteBox((prev) => !prev);
               setPasteFeedback(null);
             }}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
           >
             <ClipboardPaste className="w-3.5 h-3.5" aria-hidden="true" />
             <span>Smart Paste</span>
@@ -160,7 +162,7 @@ export const ExpectedHashesPanel: React.FC<ExpectedHashesPanelProps> = ({
             <button
               type="button"
               onClick={handleUseComputed}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
             >
               <CopyCheck className="w-3.5 h-3.5" aria-hidden="true" />
               <span>Use Computed</span>
@@ -173,7 +175,7 @@ export const ExpectedHashesPanel: React.FC<ExpectedHashesPanelProps> = ({
               onResetDefaults();
               setPasteFeedback('Restored default reference hashes.');
             }}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
           >
             <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
             <span>Script Defaults</span>
@@ -185,7 +187,7 @@ export const ExpectedHashesPanel: React.FC<ExpectedHashesPanelProps> = ({
               onClearExpected();
               setPasteFeedback(null);
             }}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
           >
             <Eraser className="w-3.5 h-3.5" aria-hidden="true" />
             <span>Clear</span>
@@ -194,14 +196,14 @@ export const ExpectedHashesPanel: React.FC<ExpectedHashesPanelProps> = ({
       </div>
 
       {/* Auto-Detect Companion & Filename Checksums Bar */}
-      <div className="rounded-lg border border-slate-200 bg-slate-50/70 p-3.5 space-y-2.5">
+      <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/60 p-3.5 space-y-2.5">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <label className="inline-flex items-center gap-2 text-xs font-medium text-slate-700 cursor-pointer select-none">
+          <label className="inline-flex items-center gap-2 text-xs font-medium text-slate-700 dark:text-slate-200 cursor-pointer select-none">
             <input
               type="checkbox"
               checked={autoDetectEnabled}
               onChange={(e) => onToggleAutoDetect(e.target.checked)}
-              className="h-3.5 w-3.5 rounded border-slate-300 text-blue-700 focus:ring-blue-700"
+              className="h-3.5 w-3.5 rounded border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-blue-700 focus:ring-blue-700"
             />
             <span>Auto-detect from filename &amp; .txt / .sha256 files</span>
           </label>
@@ -211,7 +213,7 @@ export const ExpectedHashesPanel: React.FC<ExpectedHashesPanelProps> = ({
               <button
                 type="button"
                 onClick={onScanFilename}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 rounded-md transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-md transition-colors whitespace-nowrap shrink-0 cursor-pointer"
               >
                 <FileSearch className="w-3.5 h-3.5" aria-hidden="true" />
                 <span>Scan Filename</span>
@@ -220,7 +222,7 @@ export const ExpectedHashesPanel: React.FC<ExpectedHashesPanelProps> = ({
             <button
               type="button"
               onClick={() => companionInputRef.current?.click()}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 rounded-md transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-md transition-colors whitespace-nowrap shrink-0 cursor-pointer"
             >
               <FileText className="w-3.5 h-3.5" aria-hidden="true" />
               <span>Load .txt / .sha256</span>
@@ -230,8 +232,10 @@ export const ExpectedHashesPanel: React.FC<ExpectedHashesPanelProps> = ({
 
         {detectionNotice && (
           <div
-            className={`flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-200/80 text-xs ${
-              detectionNotice.tone === 'warning' ? 'text-amber-800' : 'text-emerald-800'
+            className={`flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-200/80 dark:border-slate-800 text-xs ${
+              detectionNotice.tone === 'warning'
+                ? 'text-amber-800 dark:text-amber-300'
+                : 'text-emerald-800 dark:text-emerald-300'
             }`}
           >
             <span className="font-medium">{detectionNotice.message}</span>
@@ -239,7 +243,7 @@ export const ExpectedHashesPanel: React.FC<ExpectedHashesPanelProps> = ({
               <button
                 type="button"
                 onClick={() => onHashCompanionAsTarget(detectionNotice.companionFile!)}
-                className="text-xs font-semibold text-blue-700 hover:text-blue-900 underline underline-offset-2 whitespace-nowrap shrink-0 cursor-pointer"
+                className="text-xs font-semibold text-blue-700 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 underline underline-offset-2 whitespace-nowrap shrink-0 cursor-pointer"
               >
                 Hash file as target instead
               </button>
@@ -249,8 +253,8 @@ export const ExpectedHashesPanel: React.FC<ExpectedHashesPanelProps> = ({
       </div>
 
       {showPasteBox && (
-        <div className="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-3">
-          <label htmlFor="smart-paste-input" className="block text-xs font-medium text-slate-700">
+        <div className="p-4 rounded-lg bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 space-y-3">
+          <label htmlFor="smart-paste-input" className="block text-xs font-medium text-slate-700 dark:text-slate-200">
             Paste raw hex, sha256sum/md5sum lines, or key-value checksum output
           </label>
           <textarea
@@ -259,20 +263,20 @@ export const ExpectedHashesPanel: React.FC<ExpectedHashesPanelProps> = ({
             value={pasteText}
             onChange={(e) => setPasteText(e.target.value)}
             placeholder={`MD5: 9a3d12e0e4db940488d3f93c5a7b5010\nSHA-256: fe2ed2077eb58c0d8bbad20864fcb0ce04f96e1d56cdf20bfe0cba4c345a90ed`}
-            className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 font-mono text-xs text-slate-900 placeholder:text-slate-400 focus:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700/15"
+            className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 font-mono text-xs text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-blue-700 dark:focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-700/15"
           />
           <div className="flex items-center justify-end gap-2">
             <button
               type="button"
               onClick={() => setShowPasteBox(false)}
-              className="px-3 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-900 rounded-lg cursor-pointer"
+              className="px-3 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 rounded-lg cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="button"
               onClick={handleApplyPaste}
-              className="px-3.5 py-1.5 text-xs font-medium text-white bg-blue-700 hover:bg-blue-800 rounded-lg transition-colors cursor-pointer"
+              className="px-3.5 py-1.5 text-xs font-medium text-white bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-500 rounded-lg transition-colors cursor-pointer"
             >
               Extract Checksums
             </button>
@@ -281,7 +285,7 @@ export const ExpectedHashesPanel: React.FC<ExpectedHashesPanelProps> = ({
       )}
 
       {pasteFeedback && (
-        <p className="text-xs text-slate-600 font-medium">{pasteFeedback}</p>
+        <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">{pasteFeedback}</p>
       )}
 
       <div className="space-y-3.5">
@@ -296,18 +300,18 @@ export const ExpectedHashesPanel: React.FC<ExpectedHashesPanelProps> = ({
           return (
             <div key={alg} className="space-y-1">
               <div className="flex items-center justify-between text-xs">
-                <label htmlFor={`expected-${alg}`} className="font-semibold text-slate-700">
+                <label htmlFor={`expected-${alg}`} className="font-semibold text-slate-700 dark:text-slate-200">
                   {alg}
                 </label>
                 <span
                   className={`font-mono tabular-nums ${
                     !hasValue
-                      ? 'text-slate-400'
+                      ? 'text-slate-400 dark:text-slate-500'
                       : !validChars
-                      ? 'text-red-600'
+                      ? 'text-red-600 dark:text-red-400'
                       : isComplete
-                      ? 'text-emerald-700'
-                      : 'text-amber-700'
+                      ? 'text-emerald-700 dark:text-emerald-400'
+                      : 'text-amber-700 dark:text-amber-400'
                   }`}
                 >
                   {!hasValue
@@ -325,7 +329,7 @@ export const ExpectedHashesPanel: React.FC<ExpectedHashesPanelProps> = ({
                 value={rawValue}
                 onChange={(e) => handleFieldChange(alg, e.target.value)}
                 placeholder={`Enter ${targetLen}-character ${alg} hex digest`}
-                className="w-full rounded-lg border border-slate-200 bg-slate-50/60 px-3 py-2 font-mono text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700/15 transition-colors"
+                className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-950/60 px-3 py-2 font-mono text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:bg-white dark:focus:bg-slate-950 focus:border-blue-700 dark:focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-700/15 transition-colors"
               />
             </div>
           );

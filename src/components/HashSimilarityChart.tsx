@@ -44,7 +44,6 @@ function computeSimilarity(
     return { index, compChar, expChar, match };
   });
 
-  // If lengths differ, still highlight positional matches up to min length without awarding 100%
   if (normExp.length !== normComp.length) {
     matchedChars = 0;
     for (let i = 0; i < totalChars; i++) {
@@ -84,25 +83,25 @@ export const HashSimilarityChart: React.FC<HashSimilarityChartProps> = ({
   return (
     <section
       aria-labelledby="similarity-chart-heading"
-      className="rounded-xl border border-slate-200 bg-white p-5 space-y-4"
+      className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 space-y-4"
     >
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <div>
-          <h3 id="similarity-chart-heading" className="text-sm font-semibold text-slate-900">
+          <h3 id="similarity-chart-heading" className="text-sm font-semibold text-slate-900 dark:text-slate-100">
             Character Similarity Overview
           </h3>
-          <p className="text-xs text-slate-600 mt-0.5">
+          <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5">
             Proportional character match rate and positional alignment across each digest.
           </p>
         </div>
 
-        <div className="flex items-center gap-4 text-xs text-slate-600">
+        <div className="flex items-center gap-4 text-xs text-slate-600 dark:text-slate-300">
           <span className="inline-flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-xs bg-emerald-600 inline-block" aria-hidden="true" />
+            <span className="w-2.5 h-2.5 rounded-xs bg-emerald-600 dark:bg-emerald-500 inline-block" aria-hidden="true" />
             <span>Matched</span>
           </span>
           <span className="inline-flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-xs bg-red-600 inline-block" aria-hidden="true" />
+            <span className="w-2.5 h-2.5 rounded-xs bg-red-600 dark:bg-red-500 inline-block" aria-hidden="true" />
             <span>Mismatch</span>
           </span>
         </div>
@@ -118,23 +117,25 @@ export const HashSimilarityChart: React.FC<HashSimilarityChartProps> = ({
           return (
             <div key={m.algorithm} className="space-y-1.5">
               <div className="flex items-center justify-between gap-3 text-xs">
-                <span className="font-semibold text-slate-800">{m.algorithm}</span>
+                <span className="font-semibold text-slate-800 dark:text-slate-200">{m.algorithm}</span>
                 {m.hasExpected ? (
                   <span
                     className={`font-mono tabular-nums font-medium ${
-                      isFullMatch ? 'text-emerald-700' : 'text-red-700'
+                      isFullMatch
+                        ? 'text-emerald-700 dark:text-emerald-400'
+                        : 'text-red-700 dark:text-red-400'
                     }`}
                   >
                     {m.matchedChars} / {m.totalChars} chars · {m.similarityPct.toFixed(1)}%
                   </span>
                 ) : (
-                  <span className="text-slate-400">Not checked</span>
+                  <span className="text-slate-400 dark:text-slate-500">Not checked</span>
                 )}
               </div>
 
               {/* Color-coded horizontal similarity bar */}
               <div
-                className="w-full h-2.5 rounded-full bg-slate-100 overflow-hidden"
+                className="w-full h-2.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden"
                 role="img"
                 aria-label={
                   m.hasExpected
@@ -146,10 +147,10 @@ export const HashSimilarityChart: React.FC<HashSimilarityChartProps> = ({
                   <div
                     className={`h-full transition-all duration-300 ${
                       isFullMatch
-                        ? 'bg-emerald-600'
+                        ? 'bg-emerald-600 dark:bg-emerald-500'
                         : m.similarityPct >= 50
-                        ? 'bg-amber-500'
-                        : 'bg-red-600'
+                        ? 'bg-amber-500 dark:bg-amber-400'
+                        : 'bg-red-600 dark:bg-red-500'
                     }`}
                     style={{ width: `${Math.max(m.similarityPct, 2)}%` }}
                   />

@@ -66,11 +66,13 @@ export const HistoryView: React.FC<HistoryViewProps> = ({
   };
 
   return (
-    <section className="rounded-xl border border-slate-200 bg-white overflow-hidden">
-      <div className="p-5 border-b border-slate-200 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+    <section className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
+      <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
-          <h2 className="text-base font-semibold text-slate-900">Verification History</h2>
-          <p className="mt-0.5 text-xs text-slate-600">
+          <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">
+            Verification History
+          </h2>
+          <p className="mt-0.5 text-xs text-slate-600 dark:text-slate-300">
             Session log of local integrity checks stored in your browser. Click any entry to inspect its digests.
           </p>
         </div>
@@ -78,7 +80,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({
         <div className="flex flex-wrap items-center gap-3">
           <div className="relative">
             <Search
-              className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"
+              className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 absolute left-3 top-1/2 -translate-y-1/2"
               aria-hidden="true"
             />
             <input
@@ -86,12 +88,12 @@ export const HistoryView: React.FC<HistoryViewProps> = ({
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Filter filename or hash..."
-              className="pl-8 pr-3 py-1.5 text-xs rounded-lg border border-slate-200 bg-slate-50/70 text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-blue-700 focus:outline-none w-52"
+              className="pl-8 pr-3 py-1.5 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-950/60 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:bg-white dark:focus:bg-slate-950 focus:border-blue-700 dark:focus:border-blue-500 focus:outline-none w-52"
             />
           </div>
 
           {/* Interactive segmented filter control */}
-          <div className="flex items-center gap-1 p-1 bg-slate-100 rounded-lg">
+          <div className="flex items-center gap-1 p-1 bg-slate-100 dark:bg-slate-800 rounded-lg">
             {(
               [
                 { id: 'all', label: 'All' },
@@ -106,8 +108,8 @@ export const HistoryView: React.FC<HistoryViewProps> = ({
                 onClick={() => setFilter(opt.id)}
                 className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
                   filter === opt.id
-                    ? 'bg-white text-slate-900 shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-xs'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100'
                 }`}
               >
                 {opt.label}
@@ -119,7 +121,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({
             type="button"
             disabled={records.length === 0}
             onClick={handleExportCsv}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 disabled:opacity-50 border border-slate-200 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-50 border border-slate-200 dark:border-slate-700 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
           >
             <Download className="w-3.5 h-3.5" aria-hidden="true" />
             <span>Export CSV</span>
@@ -129,7 +131,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({
             type="button"
             disabled={records.length === 0}
             onClick={onClearHistory}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 hover:text-red-700 hover:bg-red-50 disabled:opacity-50 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-red-700 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 disabled:opacity-50 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
           >
             <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
             <span>Clear</span>
@@ -138,7 +140,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({
       </div>
 
       {filtered.length === 0 ? (
-        <div className="p-12 text-center text-sm text-slate-500">
+        <div className="p-12 text-center text-sm text-slate-500 dark:text-slate-400">
           {records.length === 0
             ? 'No verification checks recorded yet. Drop a file in the Verifier tab to log your first check.'
             : 'No verification entries match your current filter.'}
@@ -147,7 +149,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-slate-200 bg-slate-50/70 text-xs font-semibold text-slate-600">
+              <tr className="border-b border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/60 text-xs font-semibold text-slate-600 dark:text-slate-300">
                 <th className="py-2.5 px-4">File</th>
                 <th className="py-2.5 px-4 text-right">Size</th>
                 <th className="py-2.5 px-4">SHA-256 Digest</th>
@@ -155,40 +157,40 @@ export const HistoryView: React.FC<HistoryViewProps> = ({
                 <th className="py-2.5 px-4 text-right">Checked</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-xs">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80 text-xs">
               {filtered.map((rec) => (
                 <tr
                   key={rec.id}
                   onClick={() => onLoadRecord(rec)}
-                  className="hover:bg-slate-50 cursor-pointer transition-colors"
+                  className="hover:bg-slate-50 dark:hover:bg-slate-800/40 cursor-pointer transition-colors"
                 >
-                  <td className="py-2.5 px-4 font-medium text-slate-900 max-w-[220px] truncate">
+                  <td className="py-2.5 px-4 font-medium text-slate-900 dark:text-slate-100 max-w-[220px] truncate">
                     {rec.file.name}
                   </td>
-                  <td className="py-2.5 px-4 text-right font-mono tabular-nums text-slate-600 whitespace-nowrap">
+                  <td className="py-2.5 px-4 text-right font-mono tabular-nums text-slate-600 dark:text-slate-300 whitespace-nowrap">
                     {formatBytes(rec.file.size)}
                   </td>
-                  <td className="py-2.5 px-4 font-mono tabular-nums text-slate-700 max-w-[300px] truncate">
+                  <td className="py-2.5 px-4 font-mono tabular-nums text-slate-700 dark:text-slate-300 max-w-[300px] truncate">
                     {rec.computed['SHA-256']}
                   </td>
                   <td className="py-2.5 px-4 whitespace-nowrap">
                     {rec.verdict === 'verified' && (
-                      <span className="inline-flex items-center gap-1.5 font-semibold text-emerald-700">
+                      <span className="inline-flex items-center gap-1.5 font-semibold text-emerald-700 dark:text-emerald-400">
                         <CheckCircle2 className="w-3.5 h-3.5" aria-hidden="true" />
                         <span>Match</span>
                       </span>
                     )}
                     {rec.verdict === 'tampered' && (
-                      <span className="inline-flex items-center gap-1.5 font-semibold text-red-700">
+                      <span className="inline-flex items-center gap-1.5 font-semibold text-red-700 dark:text-red-400">
                         <XCircle className="w-3.5 h-3.5" aria-hidden="true" />
                         <span>Tampered</span>
                       </span>
                     )}
                     {rec.verdict === 'unverified' && (
-                      <span className="text-slate-600 font-medium">Computed</span>
+                      <span className="text-slate-600 dark:text-slate-300 font-medium">Computed</span>
                     )}
                   </td>
-                  <td className="py-2.5 px-4 text-right font-mono tabular-nums text-slate-500 whitespace-nowrap">
+                  <td className="py-2.5 px-4 text-right font-mono tabular-nums text-slate-500 dark:text-slate-400 whitespace-nowrap">
                     {new Date(rec.timestamp).toLocaleTimeString([], {
                       hour: '2-digit',
                       minute: '2-digit',

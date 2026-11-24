@@ -110,18 +110,18 @@ export const SideBySideBitDiff: React.FC<SideBySideBitDiffProps> = ({
       {/* Side-by-Side Hex Comparison Columns */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Left: Computed */}
-        <div className="rounded-lg border border-slate-200 bg-slate-50/70 p-3.5 space-y-2.5 min-w-0">
+        <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/60 p-3.5 space-y-2.5 min-w-0">
           <div className="flex items-center justify-between gap-2">
-            <span className="text-xs font-semibold text-slate-700">Computed</span>
+            <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">Computed</span>
             <button
               type="button"
               onClick={() => onCopy(`${algorithm}-computed`, computed)}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-md transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-md transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 dark:focus-visible:ring-blue-500"
               aria-label={`Copy computed ${algorithm} hash to clipboard`}
             >
               {copiedKey === `${algorithm}-computed` ? (
                 <>
-                  <Check className="w-3.5 h-3.5 text-emerald-700" aria-hidden="true" />
+                  <Check className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400" aria-hidden="true" />
                   <span>Copied</span>
                 </>
               ) : (
@@ -133,7 +133,7 @@ export const SideBySideBitDiff: React.FC<SideBySideBitDiffProps> = ({
             </button>
           </div>
 
-          <div className="font-mono text-xs leading-relaxed break-all select-all bg-white border border-slate-200/80 rounded-md px-3 py-2">
+          <div className="font-mono text-xs leading-relaxed break-all select-all bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-md px-3 py-2">
             {status === 'mismatch' && expected
               ? computed.split('').map((char, idx) => {
                   const differs = expected[idx] !== char;
@@ -142,32 +142,32 @@ export const SideBySideBitDiff: React.FC<SideBySideBitDiffProps> = ({
                       key={idx}
                       className={
                         differs
-                          ? 'bg-red-100 text-red-900 font-semibold rounded-[2px]'
-                          : 'text-slate-700'
+                          ? 'bg-red-100 dark:bg-red-900/70 text-red-900 dark:text-red-200 font-semibold rounded-[2px]'
+                          : 'text-slate-700 dark:text-slate-300'
                       }
                     >
                       {char}
                     </span>
                   );
                 })
-              : <span className="text-slate-900">{computed}</span>}
+              : <span className="text-slate-900 dark:text-slate-100">{computed}</span>}
           </div>
         </div>
 
         {/* Right: Expected */}
-        <div className="rounded-lg border border-slate-200 bg-slate-50/70 p-3.5 space-y-2.5 min-w-0">
+        <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/60 p-3.5 space-y-2.5 min-w-0">
           <div className="flex items-center justify-between gap-2">
-            <span className="text-xs font-semibold text-slate-700">Expected</span>
+            <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">Expected</span>
             {expected ? (
               <button
                 type="button"
                 onClick={() => onCopy(`${algorithm}-expected`, expected)}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-md transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-md transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 dark:focus-visible:ring-blue-500"
                 aria-label={`Copy expected ${algorithm} hash to clipboard`}
               >
                 {copiedKey === `${algorithm}-expected` ? (
                   <>
-                    <Check className="w-3.5 h-3.5 text-emerald-700" aria-hidden="true" />
+                    <Check className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400" aria-hidden="true" />
                     <span>Copied</span>
                   </>
                 ) : (
@@ -178,13 +178,13 @@ export const SideBySideBitDiff: React.FC<SideBySideBitDiffProps> = ({
                 )}
               </button>
             ) : (
-              <span className="text-xs text-slate-400">Not provided</span>
+              <span className="text-xs text-slate-400 dark:text-slate-500">Not provided</span>
             )}
           </div>
 
-          <div className="font-mono text-xs leading-relaxed break-all select-all bg-white border border-slate-200/80 rounded-md px-3 py-2">
+          <div className="font-mono text-xs leading-relaxed break-all select-all bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-md px-3 py-2">
             {!expected ? (
-              <span className="font-sans text-slate-400">
+              <span className="font-sans text-slate-400 dark:text-slate-500">
                 No expected {algorithm} hash provided
               </span>
             ) : status === 'mismatch' ? (
@@ -195,8 +195,8 @@ export const SideBySideBitDiff: React.FC<SideBySideBitDiffProps> = ({
                     key={idx}
                     className={
                       differs
-                        ? 'bg-emerald-100 text-emerald-900 font-semibold rounded-[2px]'
-                        : 'text-slate-700'
+                        ? 'bg-emerald-100 dark:bg-emerald-900/70 text-emerald-900 dark:text-emerald-200 font-semibold rounded-[2px]'
+                        : 'text-slate-700 dark:text-slate-300'
                     }
                   >
                     {char}
@@ -204,7 +204,7 @@ export const SideBySideBitDiff: React.FC<SideBySideBitDiffProps> = ({
                 );
               })
             ) : (
-              <span className="text-slate-900">{expected}</span>
+              <span className="text-slate-900 dark:text-slate-100">{expected}</span>
             )}
           </div>
         </div>
@@ -212,12 +212,14 @@ export const SideBySideBitDiff: React.FC<SideBySideBitDiffProps> = ({
 
       {/* Bit-Level Diff Matrix when a mismatch occurs */}
       {status === 'mismatch' && (
-        <div className="rounded-lg border border-slate-200 bg-white overflow-hidden">
+        <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
           {bitAnalysis ? (
             <>
-              <div className="px-3.5 py-2.5 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3">
-                <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-700 font-mono tabular-nums">
-                  <span className="font-sans font-semibold text-slate-900">Bit-Level Diff</span>
+              <div className="px-3.5 py-2.5 bg-slate-50 dark:bg-slate-950/60 border-b border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3">
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-700 dark:text-slate-300 font-mono tabular-nums">
+                  <span className="font-sans font-semibold text-slate-900 dark:text-slate-100">
+                    Bit-Level Diff
+                  </span>
                   <span aria-hidden="true">·</span>
                   <span>
                     {bitAnalysis.differingBits} / {bitAnalysis.totalBits} bits differ ({bitAnalysis.diffPercent}%)
@@ -228,14 +230,14 @@ export const SideBySideBitDiff: React.FC<SideBySideBitDiffProps> = ({
                   </span>
                 </div>
 
-                <div className="flex items-center gap-1 p-0.5 bg-slate-200/70 rounded-md">
+                <div className="flex items-center gap-1 p-0.5 bg-slate-200/70 dark:bg-slate-800 rounded-md">
                   <button
                     type="button"
                     onClick={() => setByteFilter('all')}
                     className={`px-2 py-1 text-xs font-medium rounded transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
                       byteFilter === 'all'
-                        ? 'bg-white text-slate-900 shadow-xs'
-                        : 'text-slate-600 hover:text-slate-900'
+                        ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-xs'
+                        : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100'
                     }`}
                   >
                     All Bytes ({bitAnalysis.totalBytes})
@@ -245,8 +247,8 @@ export const SideBySideBitDiff: React.FC<SideBySideBitDiffProps> = ({
                     onClick={() => setByteFilter('mismatched')}
                     className={`px-2 py-1 text-xs font-medium rounded transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
                       byteFilter === 'mismatched'
-                        ? 'bg-white text-slate-900 shadow-xs'
-                        : 'text-slate-600 hover:text-slate-900'
+                        ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-xs'
+                        : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100'
                     }`}
                   >
                     Differing ({bitAnalysis.differingBytes})
@@ -256,7 +258,7 @@ export const SideBySideBitDiff: React.FC<SideBySideBitDiffProps> = ({
 
               <div className="max-h-64 overflow-y-auto overflow-x-auto">
                 <table className="w-full text-left border-collapse font-mono text-xs tabular-nums">
-                  <thead className="sticky top-0 bg-slate-50 border-b border-slate-200 text-[11px] font-sans font-semibold text-slate-600">
+                  <thead className="sticky top-0 bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 text-[11px] font-sans font-semibold text-slate-600 dark:text-slate-300">
                     <tr>
                       <th className="py-2 px-3">Byte</th>
                       <th className="py-2 px-3">Computed Bits</th>
@@ -264,19 +266,23 @@ export const SideBySideBitDiff: React.FC<SideBySideBitDiffProps> = ({
                       <th className="py-2 px-3">XOR Mask</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100">
+                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80">
                     {visibleRows.map((row) => (
                       <tr
                         key={row.byteIndex}
-                        className={row.hasDiff ? 'bg-red-50/25' : 'bg-white'}
+                        className={
+                          row.hasDiff
+                            ? 'bg-red-50/25 dark:bg-red-950/20'
+                            : 'bg-white dark:bg-slate-900'
+                        }
                       >
-                        <td className="py-1.5 px-3 text-slate-500 whitespace-nowrap">
+                        <td className="py-1.5 px-3 text-slate-500 dark:text-slate-400 whitespace-nowrap">
                           {row.offsetHex}
                         </td>
 
                         {/* Computed Hex + 8 Bits */}
                         <td className="py-1.5 px-3 whitespace-nowrap">
-                          <span className="inline-block w-6 text-slate-500 mr-1.5">
+                          <span className="inline-block w-6 text-slate-500 dark:text-slate-400 mr-1.5">
                             {row.compHex}
                           </span>
                           <span className="inline-flex items-center gap-[1px]">
@@ -290,7 +296,7 @@ export const SideBySideBitDiff: React.FC<SideBySideBitDiffProps> = ({
                                   } ${
                                     differs
                                       ? 'bg-red-600 text-white font-semibold'
-                                      : 'text-slate-700'
+                                      : 'text-slate-700 dark:text-slate-300'
                                   }`}
                                 >
                                   {bit}
@@ -302,7 +308,7 @@ export const SideBySideBitDiff: React.FC<SideBySideBitDiffProps> = ({
 
                         {/* Expected Hex + 8 Bits */}
                         <td className="py-1.5 px-3 whitespace-nowrap">
-                          <span className="inline-block w-6 text-slate-500 mr-1.5">
+                          <span className="inline-block w-6 text-slate-500 dark:text-slate-400 mr-1.5">
                             {row.expHex}
                           </span>
                           <span className="inline-flex items-center gap-[1px]">
@@ -315,8 +321,8 @@ export const SideBySideBitDiff: React.FC<SideBySideBitDiffProps> = ({
                                     bIdx === 4 ? 'ml-1' : ''
                                   } ${
                                     differs
-                                      ? 'bg-emerald-700 text-white font-semibold'
-                                      : 'text-slate-700'
+                                      ? 'bg-emerald-700 dark:bg-emerald-600 text-white font-semibold'
+                                      : 'text-slate-700 dark:text-slate-300'
                                   }`}
                                 >
                                   {bit}
@@ -336,8 +342,8 @@ export const SideBySideBitDiff: React.FC<SideBySideBitDiffProps> = ({
                                   bIdx === 4 ? 'ml-1' : ''
                                 } ${
                                   bit === '1'
-                                    ? 'bg-amber-200 text-amber-950 font-semibold'
-                                    : 'text-slate-400'
+                                    ? 'bg-amber-200 dark:bg-amber-800/80 text-amber-950 dark:text-amber-100 font-semibold'
+                                    : 'text-slate-400 dark:text-slate-600'
                                 }`}
                               >
                                 {bit}
@@ -352,7 +358,7 @@ export const SideBySideBitDiff: React.FC<SideBySideBitDiffProps> = ({
               </div>
             </>
           ) : (
-            <div className="px-4 py-3 text-xs text-slate-600 bg-slate-50">
+            <div className="px-4 py-3 text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-950/50">
               Bit-level diff alignment requires a valid {computed.length}-character hexadecimal expected digest (currently {expected.length} characters).
             </div>
           )}

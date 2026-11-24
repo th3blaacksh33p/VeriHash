@@ -13,6 +13,11 @@ export interface FileMetadata {
   lastModified: number;
 }
 
+export interface AlgorithmProgress {
+  bytesProcessed: number;
+  percentage: number;
+}
+
 export interface HashProgress {
   bytesProcessed: number;
   totalBytes: number;
@@ -21,6 +26,7 @@ export interface HashProgress {
   totalChunks: number;
   elapsedMs: number;
   throughputMBps: number;
+  byAlgorithm: Record<HashAlgorithm, AlgorithmProgress>;
 }
 
 export interface VerificationRecord {
@@ -30,6 +36,7 @@ export interface VerificationRecord {
   expected: HashSet;
   verdict: 'verified' | 'tampered' | 'unverified';
   durationMs: number;
+  algorithmDurationsMs?: Record<HashAlgorithm, number>;
   timestamp: number;
 }
 
@@ -42,7 +49,8 @@ export interface BatchQueueItem {
   computed?: HashSet;
   expected?: Partial<HashSet>;
   durationMs?: number;
+  algorithmDurationsMs?: Record<HashAlgorithm, number>;
   error?: string;
 }
 
-export type ActiveTab = 'verifier' | 'batch' | 'history' | 'algorithms';
+export type ActiveTab = 'verifier' | 'batch' | 'performance' | 'history' | 'algorithms';

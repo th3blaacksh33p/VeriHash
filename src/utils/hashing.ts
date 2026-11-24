@@ -70,7 +70,11 @@ export async function computeFileHashes(
   file: File,
   onProgress?: (progress: HashProgress) => void,
   signal?: AbortSignal
-): Promise<{ hashes: HashSet; durationMs: number }> {
+): Promise<{
+  hashes: HashSet;
+  durationMs: number;
+  algorithmDurationsMs: Record<HashAlgorithm, number>;
+}> {
   const spark = new SparkMD5.ArrayBuffer();
   const sha1Hasher = sha1.create();
   const sha256Hasher = sha256.create();
@@ -81,12 +85,33 @@ export async function computeFileHashes(
 
   let offset = 0;
   let chunksProcessed = 0;
+  const algBytes: Record<HashAlgorithm, number> = {
+    MD5: 0,
+    'SHA-1': 0,
+    'SHA-256': 0,
+  };
+  const algDurations: Record<HashAlgorithm, number> = {
+    MD5: 0,
+    'SHA-1': 0,
+    'SHA-256': 0,
+  };
 
   if (totalBytes === 0) {
     const emptyBuf = new ArrayBuffer(0);
+    const emptyU8 = new Uint8Array(emptyBuf);
+
+    const t0 = performance.now();
     spark.append(emptyBuf);
-    sha1Hasher.update(new Uint8Array(emptyBuf));
-    sha256Hasher.update(new Uint8Array(emptyBuf));
+    const t1 = performance.now();
+    sha1Hasher.update(emptyU8);
+    const t2 = performance.now();
+    sha256Hasher.update(emptyU8);
+    const t3 = performance.now();
+
+    algDurations.MD5 += t1 - t0;
+    algDurations['SHA-1'] += t2 - t1;
+    algDurations['SHA-256'] += t3 - t2;
+
     const elapsedMs = Math.max(1, performance.now() - startTime);
     onProgress?.({
       bytesProcessed: 0,
@@ -96,6 +121,11 @@ export async function computeFileHashes(
       totalChunks: 1,
       elapsedMs,
       throughputMBps: 0,
+      byAlgorithm: {
+        MD5: { bytesProcessed: 0, percentage: 100 },
+        'SHA-1': { bytesProcessed: 0, percentage: 100 },
+        'SHA-256': { bytesProcessed: 0, percentage: 100 },
+      },
     });
   } else {
     while (offset < totalBytes) {
@@ -108,9 +138,21 @@ export async function computeFileHashes(
       const buffer = await slice.arrayBuffer();
       const uint8 = new Uint8Array(buffer);
 
+      const t0 = performance.now();
       spark.append(buffer);
+      const t1 = performance.now();
+      algDurations.MD5 += t1 - t0;
+      algBytes.MD5 = end;
+
       sha1Hasher.update(uint8);
+      const t2 = performance.now();
+      algDurations['SHA-1'] += t2 - t1;
+      algBytes['SHA-1'] = end;
+
       sha256Hasher.update(uint8);
+      const t3 = performance.now();
+      algDurations['SHA-256'] += t3 - t2;
+      algBytes['SHA-256'] = end;
 
       offset = end;
       chunksProcessed += 1;
@@ -120,6 +162,9 @@ export async function computeFileHashes(
 
       if (shouldNotify && onProgress) {
         const throughputMBps = offset / (1024 * 1024) / (elapsedMs / 1000);
+        const pct = (bytes: number) =>
+          Math.min(100, Number(((bytes / totalBytes) * 100).toFixed(1)));
+
         onProgress({
           bytesProcessed: offset,
           totalBytes,
@@ -128,6 +173,11 @@ export async function computeFileHashes(
           totalChunks,
           elapsedMs,
           throughputMBps,
+          byAlgorithm: {
+            MD5: { bytesProcessed: algBytes.MD5, percentage: pct(algBytes.MD5) },
+            'SHA-1': { bytesProcessed: algBytes['SHA-1'], percentage: pct(algBytes['SHA-1']) },
+            'SHA-256': { bytesProcessed: algBytes['SHA-256'], percentage: pct(algBytes['SHA-256']) },
+          },
         });
         // Yield briefly to keep UI responsive on large files
         await new Promise((resolve) => setTimeout(resolve, 0));
@@ -135,15 +185,28 @@ export async function computeFileHashes(
     }
   }
 
+  const f0 = performance.now();
+  const md5Hex = spark.end().toLowerCase();
+  const f1 = performance.now();
+  const sha1Hex = sha1Hasher.hex().toLowerCase();
+  const f2 = performance.now();
+  const sha256Hex = sha256Hasher.hex().toLowerCase();
+  const f3 = performance.now();
+
+  algDurations.MD5 = Math.max(0.05, algDurations.MD5 + (f1 - f0));
+  algDurations['SHA-1'] = Math.max(0.05, algDurations['SHA-1'] + (f2 - f1));
+  algDurations['SHA-256'] = Math.max(0.05, algDurations['SHA-256'] + (f3 - f2));
+
   const durationMs = Math.max(1, performance.now() - startTime);
 
   return {
     hashes: {
-      MD5: spark.end().toLowerCase(),
-      'SHA-1': sha1Hasher.hex().toLowerCase(),
-      'SHA-256': sha256Hasher.hex().toLowerCase(),
+      MD5: md5Hex,
+      'SHA-1': sha1Hex,
+      'SHA-256': sha256Hex,
     },
     durationMs,
+    algorithmDurationsMs: algDurations,
   };
 }
 

@@ -60,14 +60,15 @@ export const AlgorithmsView: React.FC = () => {
       {/* Educational Section for Users Unfamiliar with Hashing */}
       <section
         aria-labelledby="learn-algorithms-heading"
-        className="rounded-xl border border-slate-200 bg-white p-6 space-y-5"
+        className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 space-y-5"
       >
         <div className="space-y-1.5 max-w-3xl">
-          <h2 id="learn-algorithms-heading" className="text-base font-semibold text-slate-900">
+          <h2 id="learn-algorithms-heading" className="text-base font-semibold text-slate-900 dark:text-slate-100">
             Learn About These Algorithms
           </h2>
-          <p className="text-sm text-slate-600 leading-relaxed">
-            A cryptographic hash works like a unique digital fingerprint for a file. No matter whether a file is a 10-byte note or a 4 GB disk image, a hash function produces a fixed-length string—and changing even one character inside the file causes an <span className="font-medium text-slate-800">avalanche effect</span> that changes roughly half of the output bits.
+          <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            A cryptographic hash works like a unique digital fingerprint for a file. No matter whether a file is a 10-byte note or a 4 GB disk image, a hash function produces a fixed-length string—and changing even one character inside the file causes an{' '}
+            <span className="font-medium text-slate-800 dark:text-slate-100">avalanche effect</span> that changes roughly half of the output bits.
           </p>
         </div>
 
@@ -75,21 +76,23 @@ export const AlgorithmsView: React.FC = () => {
           {EDUCATIONAL_SUMMARIES.map((item) => (
             <article
               key={item.name}
-              className="rounded-lg border border-slate-200 bg-slate-50/50 p-5 flex flex-col justify-between gap-4"
+              className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 p-5 flex flex-col justify-between gap-4"
             >
               <div className="space-y-2.5">
                 <div>
-                  <h3 className="text-sm font-semibold text-slate-900">{item.name}</h3>
-                  <p className="text-xs text-slate-500 mt-0.5 font-mono tabular-nums">
+                  <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                    {item.name}
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 font-mono tabular-nums">
                     {item.subtitle}
                   </p>
                 </div>
-                <p className="text-xs sm:text-[13px] text-slate-700 leading-relaxed">
+                <p className="text-xs sm:text-[13px] text-slate-700 dark:text-slate-300 leading-relaxed">
                   {item.summary}
                 </p>
               </div>
 
-              <p className="text-xs text-slate-600 pt-3 border-t border-slate-200/80 leading-relaxed">
+              <p className="text-xs text-slate-600 dark:text-slate-400 pt-3 border-t border-slate-200/80 dark:border-slate-800 leading-relaxed">
                 {item.caveat}
               </p>
             </article>
@@ -98,12 +101,12 @@ export const AlgorithmsView: React.FC = () => {
       </section>
 
       {/* Technical Comparison Matrix */}
-      <section className="rounded-xl border border-slate-200 bg-white overflow-hidden">
-        <div className="p-6 border-b border-slate-200">
-          <h2 className="text-base font-semibold text-slate-900">
+      <section className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
+        <div className="p-6 border-b border-slate-200 dark:border-slate-800">
+          <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">
             Technical Specifications
           </h2>
-          <p className="mt-1 text-sm text-slate-600 max-w-2xl">
+          <p className="mt-1 text-sm text-slate-600 dark:text-slate-300 max-w-2xl">
             VeriHash streams files in 65,536-byte (64 KiB) chunks and feeds each slice incrementally into MD5, SHA-1, and SHA-256 accumulators simultaneously.
           </p>
         </div>
@@ -111,7 +114,7 @@ export const AlgorithmsView: React.FC = () => {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-slate-200 bg-slate-50/70 text-xs font-semibold text-slate-600">
+              <tr className="border-b border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/60 text-xs font-semibold text-slate-600 dark:text-slate-300">
                 <th className="py-3 px-5">Algorithm</th>
                 <th className="py-3 px-5">Digest Width</th>
                 <th className="py-3 px-5">Hex Length</th>
@@ -119,32 +122,32 @@ export const AlgorithmsView: React.FC = () => {
                 <th className="py-3 px-5">Operational Guidance</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-sm">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80 text-sm">
               {ALGORITHM_SPECS.map((spec) => (
                 <tr key={spec.name} className="align-top">
-                  <td className="py-4 px-5 font-semibold text-slate-900 whitespace-nowrap">
+                  <td className="py-4 px-5 font-semibold text-slate-900 dark:text-slate-100 whitespace-nowrap">
                     {spec.name}
                   </td>
-                  <td className="py-4 px-5 font-mono tabular-nums text-xs text-slate-700 whitespace-nowrap">
+                  <td className="py-4 px-5 font-mono tabular-nums text-xs text-slate-700 dark:text-slate-300 whitespace-nowrap">
                     {spec.bits}
                   </td>
-                  <td className="py-4 px-5 font-mono tabular-nums text-xs text-slate-700 whitespace-nowrap">
+                  <td className="py-4 px-5 font-mono tabular-nums text-xs text-slate-700 dark:text-slate-300 whitespace-nowrap">
                     {spec.hexLength}
                   </td>
                   <td className="py-4 px-5 text-xs font-semibold whitespace-nowrap">
                     <span
                       className={
                         spec.name === 'SHA-256'
-                          ? 'text-emerald-700'
+                          ? 'text-emerald-700 dark:text-emerald-400'
                           : spec.name === 'SHA-1'
-                          ? 'text-amber-700'
-                          : 'text-red-700'
+                          ? 'text-amber-700 dark:text-amber-400'
+                          : 'text-red-700 dark:text-red-400'
                       }
                     >
                       {spec.collisionResistance}
                     </span>
                   </td>
-                  <td className="py-4 px-5 text-xs text-slate-600 leading-relaxed max-w-md">
+                  <td className="py-4 px-5 text-xs text-slate-600 dark:text-slate-300 leading-relaxed max-w-md">
                     {spec.recommendation}
                   </td>
                 </tr>
@@ -154,12 +157,13 @@ export const AlgorithmsView: React.FC = () => {
         </div>
       </section>
 
-      <section className="rounded-xl border border-slate-200 bg-white p-6 space-y-3">
-        <h3 className="text-sm font-semibold text-slate-900">
+      <section className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 space-y-3">
+        <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
           Why 64 KiB Chunked Streaming Matters
         </h3>
-        <p className="text-sm text-slate-600 leading-relaxed max-w-3xl">
-          Reading an entire ISO image or archive into memory at once can exhaust browser tab memory limits. By slicing the file via the HTML5 File API into 65,536-byte chunks—identical to the 64K buffer loop in Python&apos;s <span className="font-mono text-xs text-slate-800">hashlib</span>—VeriHash maintains constant memory overhead regardless of file size while reporting real-time throughput.
+        <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed max-w-3xl">
+          Reading an entire ISO image or archive into memory at once can exhaust browser tab memory limits. By slicing the file via the HTML5 File API into 65,536-byte chunks—identical to the 64K buffer loop in Python&apos;s{' '}
+          <span className="font-mono text-xs text-slate-800 dark:text-slate-200">hashlib</span>—VeriHash maintains constant memory overhead regardless of file size while reporting real-time throughput.
         </p>
       </section>
     </div>
