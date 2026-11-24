@@ -1,0 +1,6 @@
+{
+  "name": "VeriHash — File Integrity Checker",
+  "description": "Client-side cryptographic file integrity verifier computing 64KB chunked MD5, SHA-1, and SHA-256 digests with expected checksum comparison and tamper detection.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
